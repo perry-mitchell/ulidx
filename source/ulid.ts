@@ -84,11 +84,11 @@ function detectRoot(): any {
 }
 
 export function encodeRandom(len: number, prng: PRNG): string {
-    let str = ""
+    let str = "";
     for (; len > 0; len--) {
-      str = randomChar(prng) + str
+      str = randomChar(prng) + str;
     }
-    return str
+    return str;
 }
 
 export function encodeTime(now: number, len: number): string {
@@ -170,7 +170,7 @@ export function monotonicFactory(prng?: PRNG): ULIDFactory {
     const currentPRNG = prng || detectPRNG();
     let lastTime: number = 0,
         lastRandom: string;
-    return function ulid(seedTime?: number): ULID {
+    return function _ulid(seedTime?: number): ULID {
         const seed = isNaN(seedTime) ? Date.now() : seedTime;
         if (seed <= lastTime) {
             const incrementedRandom = (lastRandom = incrementBase32(lastRandom));

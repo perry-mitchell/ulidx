@@ -112,7 +112,7 @@ describe("ulid", function() {
         });
 
         describe("returned function", function() {
-            beforeEach(function() {
+            before(function() {
                 this.prng = sinon.stub().returns(0.96);
             });
 
