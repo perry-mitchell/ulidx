@@ -1,9 +1,5 @@
 import { Layerr } from "layerr";
-import {
-    PRNG,
-    ULID,
-    ULIDFactory
-} from "./types";
+import { PRNG, ULID, ULIDFactory } from "./types";
 
 // These values should NEVER change. The values are precisely for
 // generating ULIDs.
@@ -19,61 +15,75 @@ const ERROR_INFO = Object.freeze({
 
 export function decodeTime(id: string): number {
     if (id.length !== TIME_LEN + RANDOM_LEN) {
-        throw new Layerr({
-            info: {
-                code: "DEC_TIME_MALFORMED",
-                ...ERROR_INFO
-            }
-        }, "Malformed ULID");
+        throw new Layerr(
+            {
+                info: {
+                    code: "DEC_TIME_MALFORMED",
+                    ...ERROR_INFO
+                }
+            },
+            "Malformed ULID"
+        );
     }
     const time = id
-      .substr(0, TIME_LEN)
-      .split("")
-      .reverse()
-      .reduce((carry, char, index) => {
-        const encodingIndex = ENCODING.indexOf(char);
-        if (encodingIndex === -1) {
-            throw new Layerr({
+        .substr(0, TIME_LEN)
+        .split("")
+        .reverse()
+        .reduce((carry, char, index) => {
+            const encodingIndex = ENCODING.indexOf(char);
+            if (encodingIndex === -1) {
+                throw new Layerr(
+                    {
+                        info: {
+                            code: "DEC_TIME_CHAR",
+                            ...ERROR_INFO
+                        }
+                    },
+                    `Time decode error: Invalid character: ${char}`
+                );
+            }
+            return (carry += encodingIndex * Math.pow(ENCODING_LEN, index));
+        }, 0);
+    if (time > TIME_MAX) {
+        throw new Layerr(
+            {
                 info: {
                     code: "DEC_TIME_CHAR",
                     ...ERROR_INFO
                 }
-            }, `Time decode error: Invalid character: ${char}`);
-        }
-        return (carry += encodingIndex * Math.pow(ENCODING_LEN, index));
-      }, 0)
-    if (time > TIME_MAX) {
-        throw new Layerr({
-            info: {
-                code: "DEC_TIME_CHAR",
-                ...ERROR_INFO
-            }
-        }, `Malformed ULID: timestamp too large: ${time}`);
+            },
+            `Malformed ULID: timestamp too large: ${time}`
+        );
     }
     return time;
 }
 
 export function detectPRNG(root?: any): PRNG {
     const rootLookup = root || detectRoot();
-    const webCrypto = rootLookup && (rootLookup.crypto || rootLookup.msCrypto) || (typeof crypto !== "undefined" ? crypto : null);
+    const webCrypto =
+        (rootLookup && (rootLookup.crypto || rootLookup.msCrypto)) ||
+        (typeof crypto !== "undefined" ? crypto : null);
     if (webCrypto) {
         return () => {
             const buffer = new Uint8Array(1);
             webCrypto.getRandomValues(buffer);
             return buffer[0] / 0xff;
-        }
+        };
     } else {
         try {
             const nodeCrypto = require("crypto");
             return () => nodeCrypto.randomBytes(1).readUInt8() / 0xff;
         } catch (e) {}
     }
-    throw new Layerr({
-        info: {
-            code: "PRNG_DETECT",
-            ...ERROR_INFO
-        }
-    }, "Failed to find a reliable PRNG");
+    throw new Layerr(
+        {
+            info: {
+                code: "PRNG_DETECT",
+                ...ERROR_INFO
+            }
+        },
+        "Failed to find a reliable PRNG"
+    );
 }
 
 function detectRoot(): any {
@@ -87,40 +97,52 @@ function detectRoot(): any {
 export function encodeRandom(len: number, prng: PRNG): string {
     let str = "";
     for (; len > 0; len--) {
-      str = randomChar(prng) + str;
+        str = randomChar(prng) + str;
     }
     return str;
 }
 
 export function encodeTime(now: number, len: number): string {
     if (isNaN(now)) {
-        throw new Layerr({
-            info: {
-                code: "ENC_TIME_NAN",
-                ...ERROR_INFO
-            }
-        }, `Time must be a number: ${now}`);
+        throw new Layerr(
+            {
+                info: {
+                    code: "ENC_TIME_NAN",
+                    ...ERROR_INFO
+                }
+            },
+            `Time must be a number: ${now}`
+        );
     } else if (now > TIME_MAX) {
-        throw new Layerr({
-            info: {
-                code: "ENC_TIME_SIZE_EXCEED",
-                ...ERROR_INFO
-            }
-        }, `Cannot encode a time larger than ${TIME_MAX}: ${now}`);
+        throw new Layerr(
+            {
+                info: {
+                    code: "ENC_TIME_SIZE_EXCEED",
+                    ...ERROR_INFO
+                }
+            },
+            `Cannot encode a time larger than ${TIME_MAX}: ${now}`
+        );
     } else if (now < 0) {
-        throw new Layerr({
-            info: {
-                code: "ENC_TIME_NEG",
-                ...ERROR_INFO
-            }
-        }, `Time must be positive: ${now}`);
+        throw new Layerr(
+            {
+                info: {
+                    code: "ENC_TIME_NEG",
+                    ...ERROR_INFO
+                }
+            },
+            `Time must be positive: ${now}`
+        );
     } else if (Number.isInteger(now) === false) {
-        throw new Layerr({
-            info: {
-                code: "ENC_TIME_TYPE",
-                ...ERROR_INFO
-            }
-        }, `Time must be an integer: ${now}`);
+        throw new Layerr(
+            {
+                info: {
+                    code: "ENC_TIME_TYPE",
+                    ...ERROR_INFO
+                }
+            },
+            `Time must be an integer: ${now}`
+        );
     }
     let mod: number,
         str: string = "";
@@ -143,28 +165,34 @@ export function incrementBase32(str: string): string {
         char = output[index];
         charIndex = ENCODING.indexOf(char);
         if (charIndex === -1) {
-            throw new Layerr({
-                info: {
-                    code: "B32_INC_ENC",
-                    ...ERROR_INFO
-                }
-            }, "Incorrectly encoded string");
+            throw new Layerr(
+                {
+                    info: {
+                        code: "B32_INC_ENC",
+                        ...ERROR_INFO
+                    }
+                },
+                "Incorrectly encoded string"
+            );
         }
         if (charIndex === maxCharIndex) {
-            output = replaceCharAt(output, index, ENCODING[0])
-            continue
+            output = replaceCharAt(output, index, ENCODING[0]);
+            continue;
         }
-        done = replaceCharAt(output, index, ENCODING[charIndex + 1])
+        done = replaceCharAt(output, index, ENCODING[charIndex + 1]);
     }
     if (typeof done === "string") {
-        return done
+        return done;
     }
-    throw new Layerr({
-        info: {
-            code: "B32_INC_INVALID",
-            ...ERROR_INFO
-        }
-    }, "Failed incrementing string");
+    throw new Layerr(
+        {
+            info: {
+                code: "B32_INC_INVALID",
+                ...ERROR_INFO
+            }
+        },
+        "Failed incrementing string"
+    );
 }
 
 function inWebWorker(): boolean {
@@ -185,7 +213,7 @@ export function monotonicFactory(prng?: PRNG): ULIDFactory {
         lastTime = seed;
         const newRandom = (lastRandom = encodeRandom(RANDOM_LEN, currentPRNG));
         return encodeTime(seed, TIME_LEN) + newRandom;
-    }
+    };
 }
 
 export function randomChar(prng: PRNG): string {

@@ -1,5 +1,2 @@
-export {
-    monotonicFactory,
-    ulid
-} from "./ulid";
+export { monotonicFactory, ulid } from "./ulid";
 export * from "./types";

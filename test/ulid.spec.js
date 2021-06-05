@@ -1,6 +1,14 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
-const { decodeTime, encodeTime, detectPRNG, encodeRandom, monotonicFactory, randomChar, ulid }  = require("../dist/ulid.js");
+const {
+    decodeTime,
+    encodeTime,
+    detectPRNG,
+    encodeRandom,
+    monotonicFactory,
+    randomChar,
+    ulid
+} = require("../dist/ulid.js");
 
 describe("ulid", function() {
     describe("decodeTime", function() {
@@ -8,11 +16,11 @@ describe("ulid", function() {
             const timestamp = Date.now();
             const id = ulid(timestamp);
             expect(decodeTime(id)).to.equal(timestamp);
-        })
+        });
 
         it("should accept the maximum allowed timestamp", function() {
             expect(decodeTime("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")).to.equal(281474976710655);
-        })
+        });
 
         describe("should reject", function() {
             it("malformed strings of incorrect length", function() {
@@ -42,7 +50,7 @@ describe("ulid", function() {
             it("should produce a number", function() {
                 expect(this.prng()).to.be.a("number");
                 expect(this.prng()).to.satisfy(num => !isNaN(num));
-            })
+            });
 
             it("should be between 0 and 1", function() {
                 expect(this.prng()).to.satisfy(num => num >= 0 && num <= 1);
@@ -63,15 +71,15 @@ describe("ulid", function() {
     describe("encodeTime", function() {
         it("should return expected encoded result", function() {
             expect(encodeTime(1469918176385, 10)).to.equal("01ARYZ6S41");
-        })
+        });
 
         it("should change length properly", function() {
             expect(encodeTime(1470264322240, 12)).to.equal("0001AS99AA60");
-        })
+        });
 
         it("should truncate time if not enough length", function() {
             expect(encodeTime(1470118279201, 8)).to.equal("AS4Y1E11");
-        })
+        });
 
         describe("should throw an error", function() {
             it("if time greater than (2 ^ 48) - 1", function() {
