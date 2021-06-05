@@ -77,6 +77,7 @@ export function detectPRNG(root?: any): PRNG {
 }
 
 function detectRoot(): any {
+    if (inWebWorker()) return self;
     if (typeof window !== "undefined") {
         return window;
     }
@@ -164,6 +165,11 @@ export function incrementBase32(str: string): string {
             ...ERROR_INFO
         }
     }, "Failed incrementing string");
+}
+
+function inWebWorker(): boolean {
+    // @ts-ignore
+    return typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
 }
 
 export function monotonicFactory(prng?: PRNG): ULIDFactory {

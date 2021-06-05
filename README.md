@@ -63,6 +63,7 @@ ulid(100000); // 000XAL6S41ACTAV9WEVGEMMVRD
 
  * NodeJS 10 and up
  * Browsers with working `crypto` / `msCrypto` libraries
+   * Web workers
 
 ### Goals
 
