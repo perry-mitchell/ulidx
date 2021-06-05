@@ -65,6 +65,10 @@ ulid(100000); // 000XAL6S41ACTAV9WEVGEMMVRD
  * Browsers with working `crypto` / `msCrypto` libraries
    * Web workers
 
+### Web
+
+`ulidx` is not currently bundled for web - you can do this yourself using a tool like Webpack or Rollup. You should absolutely disable polyfills for `crypto` in this case, as `ulidx` will use the built-in `crypto` global API rather than any polyfilled crypto anyway. Including a polyfill for crypto will just bloat your application.
+
 ### Goals
 
 React-Native support, with synchronous PRNG is a goal of this library. No ETA, however.
