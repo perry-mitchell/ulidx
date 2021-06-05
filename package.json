@@ -8,7 +8,7 @@
     "build": "npm run clean && tsc",
     "clean": "rimraf dist",
     "test": "npm run build && npm run test:specs",
-    "test:specs": "nyc mocha 'test/**/*.spec.js'"
+    "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
