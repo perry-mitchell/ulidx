@@ -53,6 +53,17 @@ ulid(150000); // 000XAL6S41ACTAV9WEVGEMMVRC
 ulid(100000); // 000XAL6S41ACTAV9WEVGEMMVRD
 ```
 
+### Decode ULID Time
+
+Import `decodeTime` to extract the timestamp embedded in a ULID:
+
+```typescript
+import { decodeTime } from "ulidx";
+
+// Extract milliseconds since UNIX Epoch from ULID
+decodeTime("01ARYZ6S41TSV4RRFFQ69G5FAV"); // 1469918176385
+```
+
 ## Pseudo-Random Number Generation (PRNG)
 
 `ulidx` will attempt to locate a suitable cryptographically-secure random number generator in the environment where it's loaded. On NodeJS this will be `crypto.randomBytes` and in the browser it will be `crypto.getRandomValues`.
