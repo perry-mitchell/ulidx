@@ -1,7 +1,7 @@
 # ulidx
 > ULID generator for NodeJS and the browser
 
-[![ulidx](https://img.shields.io/npm/v/ulidx?color=blue&label=ulidx&logo=npm&style=flat-square)](https://www.npmjs.com/package/ulidx)
+[![ulidx](https://img.shields.io/npm/v/ulidx?color=blue&label=ulidx&logo=npm&style=flat-square)](https://www.npmjs.com/package/ulidx) ![Tests status](https://github.com/perry-mitchell/ulidx/actions/workflows/test.yml/badge.svg)
 
 ULID generator library, based off of the original [ulid](https://github.com/ulid/javascript) for NodeJS and the browser. ULIDs are Universally Unique Lexicographically Sortable Identifiers. This library adheres to [this specification](https://github.com/ulid/spec).
 
