@@ -18,6 +18,11 @@ describe("ulid", function() {
             expect(decodeTime(id)).to.equal(timestamp);
         });
 
+        it("should return correct timestamp for README example", function() {
+            const id = "01ARYZ6S41TSV4RRFFQ69G5FAV";
+            expect(decodeTime(id)).to.equal(1469918176385);
+        });
+
         it("should accept the maximum allowed timestamp", function() {
             expect(decodeTime("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")).to.equal(281474976710655);
         });
