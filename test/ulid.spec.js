@@ -1,16 +1,32 @@
+const nodeCrypto = require("crypto");
 const { expect } = require("chai");
 const sinon = require("sinon");
 const {
     decodeTime,
     encodeTime,
-    detectPRNG,
     encodeRandom,
     monotonicFactory,
     randomChar,
-    ulid
+    ulid,
+    webCryptoPRNG
 } = require("../dist/ulid.js");
 
 describe("ulid", function() {
+    before(function() {
+        // Web Crypto, specifically crypto.getRandomValues is not available in
+        // Node. Stub out getRandomValues for tests.
+        global.crypto = {
+            getRandomValues: function(buf) {
+                if (!(buf instanceof Uint8Array)) {
+                    throw new TypeError("expected Uint8Array");
+                }
+                const bytes = nodeCrypto.randomBytes(buf.length);
+                buf.set(bytes);
+                return buf;
+            }
+        };
+    });
+
     describe("decodeTime", function() {
         it("should return correct timestamp", function() {
             const timestamp = Date.now();
@@ -44,12 +60,12 @@ describe("ulid", function() {
 
     describe("detectPRNG", function() {
         it("should return a function", function() {
-            expect(detectPRNG()).to.be.a("function");
+            expect(webCryptoPRNG).to.be.a("function");
         });
 
         describe("returned function", function() {
             beforeEach(function() {
-                this.prng = detectPRNG();
+                this.prng = webCryptoPRNG;
             });
 
             it("should produce a number", function() {
@@ -64,12 +80,8 @@ describe("ulid", function() {
     });
 
     describe("encodeRandom", function() {
-        beforeEach(function() {
-            this.prng = detectPRNG();
-        });
-
         it("should return correct length", function() {
-            expect(encodeRandom(12, this.prng)).to.have.a.lengthOf(12);
+            expect(encodeRandom(12, webCryptoPRNG)).to.have.a.lengthOf(12);
         });
     });
 
@@ -162,20 +174,16 @@ describe("ulid", function() {
     });
 
     describe("randomChar", function() {
-        beforeEach(function() {
-            this.prng = detectPRNG();
-        });
-
         it("should never return undefined", function() {
             for (let x = 0; x < 320000; x++) {
-                const randChar = randomChar(this.prng);
+                const randChar = randomChar(webCryptoPRNG);
                 expect(randChar).to.not.be.undefined;
             }
         });
 
         it("should never return an empty string", function() {
             for (let x = 0; x < 320000; x++) {
-                const randChar = randomChar(this.prng);
+                const randChar = randomChar(webCryptoPRNG);
                 expect(randChar).to.not.equal("");
             }
         });

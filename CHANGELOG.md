@@ -1,12 +1,11 @@
-# ulix changelog
-
-## v0.2.0
-_2021-09-24_
-
- * `decodeTime` helper
+# ulid-workers changelog
 
 ## v0.1.0
-_2021-06-05_
 
- * Initial release
+_2021-11-10_
 
+-   Initial release
+-   Fork from ulidx
+    -   Remove dependencies
+    -   Remove PRNG detection
+    -   Web Crypto API only
