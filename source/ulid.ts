@@ -60,15 +60,17 @@ export function decodeTime(id: string): number {
 
 export function detectPRNG(root?: any): PRNG {
     const rootLookup = root || detectRoot();
-    const webCrypto =
+    const globalCrypto =
         (rootLookup && (rootLookup.crypto || rootLookup.msCrypto)) ||
         (typeof crypto !== "undefined" ? crypto : null);
-    if (webCrypto) {
+    if (typeof globalCrypto?.getRandomValues === "function") {
         return () => {
             const buffer = new Uint8Array(1);
-            webCrypto.getRandomValues(buffer);
+            globalCrypto.getRandomValues(buffer);
             return buffer[0] / 0xff;
         };
+    } else if (typeof globalCrypto?.randomBytes === "function") {
+        return () => globalCrypto.randomBytes(1).readUInt8() / 0xff;
     } else {
         try {
             const nodeCrypto = require("crypto");
@@ -90,6 +92,9 @@ function detectRoot(): any {
     if (inWebWorker()) return self;
     if (typeof window !== "undefined") {
         return window;
+    }
+    if (typeof global !== "undefined") {
+        return global;
     }
     return null;
 }
