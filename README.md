@@ -75,8 +75,11 @@ decodeTime("01ARYZ6S41TSV4RRFFQ69G5FAV"); // 1469918176385
 `ulidx` is compatible with the following environments:
 
  * NodeJS 10 and up
+   * Node REPL
  * Browsers with working `crypto` / `msCrypto` libraries
    * Web workers
+
+`ulidx` is _not_ compatible with Cloudflare Workers due to their [problematic stance on getting the current time](https://developers.cloudflare.com/workers/learning/security-model#step-1-disallow-timers-and-multi-threading).
 
 ### Web
 
