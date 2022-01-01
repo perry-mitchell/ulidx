@@ -1,4 +1,4 @@
-# ulix changelog
+# ulidx changelog
 
 ## v0.3.0
 _2022-01-01_
