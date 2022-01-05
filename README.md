@@ -78,13 +78,12 @@ decodeTime("01ARYZ6S41TSV4RRFFQ69G5FAV"); // 1469918176385
    * Node REPL
  * Browsers with working `crypto` / `msCrypto` libraries
    * Web workers
+ * React-Native ¹
 
 `ulidx` is _not_ compatible with Cloudflare Workers due to their [problematic stance on getting the current time](https://developers.cloudflare.com/workers/learning/security-model#step-1-disallow-timers-and-multi-threading).
+
+ ¹ React-Native is supported if `crypto.getRandomValues()` is polyfilled. [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values) is one such library that should work well with `ulidx`. It should be imported before `ulidx` is used.
 
 ### Web
 
 `ulidx` is not currently bundled for web - you can do this yourself using a tool like Webpack or Rollup. You should absolutely disable polyfills for `crypto` in this case, as `ulidx` will use the built-in `crypto` global API rather than any polyfilled crypto anyway. Including a polyfill for crypto will just bloat your application.
-
-### Goals
-
-React-Native support, with synchronous PRNG is a goal of this library. No ETA, however.
