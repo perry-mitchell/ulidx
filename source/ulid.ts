@@ -241,3 +241,15 @@ export function ulid(seedTime?: number, prng?: PRNG): ULID {
     const seed = isNaN(seedTime) ? Date.now() : seedTime;
     return encodeTime(seed, TIME_LEN) + encodeRandom(RANDOM_LEN, currentPRNG);
 }
+
+// isValid() is a function that checks if a given string is a valid ULID.
+// checks:
+// - is a string
+// - every character is in the ENCODING string, and is the correct length
+export function isValid(id: string): boolean {
+    return (
+        typeof id === "string" &&
+        id.length === TIME_LEN + RANDOM_LEN &&
+        id.split("").every(char => ENCODING.indexOf(char) !== -1)
+    );
+}

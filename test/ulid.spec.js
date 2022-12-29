@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+const { describe } = require("node:test");
 const sinon = require("sinon");
 const {
     decodeTime,
@@ -7,7 +8,8 @@ const {
     encodeRandom,
     monotonicFactory,
     randomChar,
-    ulid
+    ulid,
+    isValid
 } = require("../dist/ulid.js");
 
 describe("ulid", function() {
@@ -188,6 +190,24 @@ describe("ulid", function() {
 
         it("should return expected encoded time component result", function() {
             expect(ulid(1469918176385).substring(0, 10)).to.equal("01ARYZ6S41");
+        });
+    });
+
+    describe("isValid", function() {
+        it("should return true for valid ULIDs", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.be.true;
+        });
+
+        it("should return false for invalid ULIDs (wrong length)", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA")).to.be.false;
+        });
+
+        it("should return false for invalid ULIDs (wrong characters)", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA!")).to.be.false;
+        });
+
+        it("should return false for invalid ULIDs (wrong type)", function() {
+            expect(isValid(123)).to.be.false;
         });
     });
 });
