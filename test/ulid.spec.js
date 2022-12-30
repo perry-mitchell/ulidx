@@ -1,5 +1,4 @@
 const { expect } = require("chai");
-const { describe } = require("node:test");
 const sinon = require("sinon");
 const {
     decodeTime,
@@ -194,8 +193,12 @@ describe("ulid", function() {
     });
 
     describe("isValid", function() {
-        it("should return true for valid ULIDs", function() {
+        it("should return true for valid ULIDs (uppercase)", function() {
             expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.be.true;
+        });
+
+        it("should return true for valid ULIDs (lowercase)", function() {
+            expect(isValid("01aryz6s41tsv4rrffq69g5fav")).to.be.true;
         });
 
         it("should return false for invalid ULIDs (wrong length)", function() {
