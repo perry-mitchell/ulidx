@@ -246,6 +246,9 @@ export function isValid(id: string): boolean {
     return (
         typeof id === "string" &&
         id.length === TIME_LEN + RANDOM_LEN &&
-        id.toUpperCase().split("").every(char => ENCODING.indexOf(char) !== -1)
+        id
+            .toUpperCase()
+            .split("")
+            .every(char => ENCODING.indexOf(char) !== -1)
     );
 }
