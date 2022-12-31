@@ -1,5 +1,10 @@
 # ulidx changelog
 
+## v0.4.0
+_2022-12-31_
+
+ * `isValid` utility for checking for valid ULIDs
+
 ## v0.3.0
 _2022-01-01_
 
