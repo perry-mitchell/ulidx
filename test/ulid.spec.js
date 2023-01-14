@@ -144,19 +144,19 @@ describe("ulid", function() {
                 });
 
                 it("first call", function() {
-                    expect(this.ulid()).to.equal("01ARYZ6S41YYYYYYYYYYYYYYYY");
+                    expect(this.ulid()).to.equal("01ARYZ6S41NNNNNNNNNNNNNNNN");
                 });
 
                 it("second call", function() {
-                    expect(this.ulid()).to.equal("01ARYZ6S41YYYYYYYYYYYYYYYZ");
+                    expect(this.ulid()).to.equal("01ARYZ6S41NNNNNNNNNNNNNNNP");
                 });
 
                 it("third call", function() {
-                    expect(this.ulid()).to.equal("01ARYZ6S41YYYYYYYYYYYYYYZ0");
+                    expect(this.ulid()).to.equal("01ARYZ6S41NNNNNNNNNNNNNNNQ");
                 });
 
                 it("fourth call", function() {
-                    expect(this.ulid()).to.equal("01ARYZ6S41YYYYYYYYYYYYYYZ1");
+                    expect(this.ulid()).to.equal("01ARYZ6S41NNNNNNNNNNNNNNNR");
                 });
             });
         });
