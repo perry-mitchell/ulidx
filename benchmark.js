@@ -16,7 +16,7 @@ suite.on("cycle", function(event) {
     console.log(String(event.target));
 });
 suite.on("complete", function() {
-    console.log("Fastest is " + this.filter("fastest").map("name"));
+    console.log("Done!");
 });
 // run async
 suite.run({ async: true });
