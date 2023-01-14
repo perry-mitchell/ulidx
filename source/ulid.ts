@@ -100,11 +100,11 @@ function detectRoot(): any {
 }
 
 export function encodeRandom(len: number, prng: PRNG): string {
-    let str = "";
-    for (; len > 0; len--) {
-        str = randomChar(prng) + str;
+    const randomBytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        randomBytes[i] = Math.floor(prng() * 256);
     }
-    return str;
+    return Array.prototype.map.call(randomBytes, (x: number) => ENCODING[x & 31]).join("");
 }
 
 export function encodeTime(now: number, len: number): string {
