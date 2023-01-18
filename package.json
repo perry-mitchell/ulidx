@@ -1,63 +1,63 @@
 {
-    "name": "ulidx",
-    "version": "0.4.0",
-    "description": "ULID generator for NodeJS and the browser",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "npm run clean && tsc",
-        "clean": "rimraf dist",
-        "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
-        "prepublishOnly": "npm run build",
-        "test": "npm run build && npm run test:specs && npm run test:format",
-        "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
-        "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'",
-        "benchmark": "node benchmark.js"
-    },
-    "files": [
-        "dist/**/*"
-    ],
-    "lint-staged": {
-        "{source,test}/**/*.{js,ts}": [
-            "prettier --write"
-        ]
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/perry-mitchell/ulidx.git"
-    },
-    "keywords": [
-        "ulid",
-        "uuid",
-        "id",
-        "generator",
-        "guid"
-    ],
-    "author": "Perry Mitchell <perry@perrymitchell.net>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/perry-mitchell/ulidx/issues"
-    },
-    "homepage": "https://github.com/perry-mitchell/ulidx#readme",
-    "devDependencies": {
-        "@types/node": "^15.12.0",
-        "benchmark": "^2.1.4",
-        "chai": "^4.3.4",
-        "husky": "^4.3.8",
-        "lint-staged": "^11.0.0",
-        "mocha": "^10.2.0",
-        "nyc": "^15.1.0",
-        "prettier": "^1.19.1",
-        "rimraf": "^3.0.2",
-        "sinon": "^11.1.1",
-        "typescript": "^4.3.2"
-    },
-    "dependencies": {
-        "layerr": "^0.1.2"
+  "name": "ulidx",
+  "version": "0.4.0",
+  "description": "ULID generator for NodeJS and the browser",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist",
+    "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && npm run test:specs && npm run test:format",
+    "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
+    "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'",
+    "benchmark": "node ./test/benchmark.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "lint-staged": {
+    "{source,test}/**/*.{js,ts}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perry-mitchell/ulidx.git"
+  },
+  "keywords": [
+    "ulid",
+    "uuid",
+    "id",
+    "generator",
+    "guid"
+  ],
+  "author": "Perry Mitchell <perry@perrymitchell.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/perry-mitchell/ulidx/issues"
+  },
+  "homepage": "https://github.com/perry-mitchell/ulidx#readme",
+  "devDependencies": {
+    "@types/node": "^15.12.0",
+    "benchmark": "^2.1.4",
+    "chai": "^4.3.4",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.0.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "sinon": "^11.1.1",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "layerr": "^0.1.2"
+  }
 }
