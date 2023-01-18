@@ -5,14 +5,14 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "benchmark": "node ./test/benchmark.js",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist",
     "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
     "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
-    "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'",
-    "benchmark": "node ./test/benchmark.js"
+    "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'"
   },
   "files": [
     "dist/**/*"
