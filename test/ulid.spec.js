@@ -8,7 +8,10 @@ const {
     monotonicFactory,
     randomChar,
     ulid,
-    isValid
+    isValid,
+    fixTypos,
+    removeHyphens,
+    fixUlid
 } = require("../dist/ulid.js");
 
 describe("ulid", function() {
@@ -206,11 +209,53 @@ describe("ulid", function() {
         });
 
         it("should return false for invalid ULIDs (wrong characters)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA!")).to.be.false;
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAu")).to.be.false;
         });
 
         it("should return false for invalid ULIDs (wrong type)", function() {
             expect(isValid(123)).to.be.false;
+        });
+    });
+
+    describe("fixTypos", function() {
+        it("should return the same ULID if no typos are present", function() {
+            expect(fixTypos("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
+        });
+
+        it("should return the correct ULID with typos fixed", function() {
+            expect(fixTypos("oLARYZ6S41TSV4RRFFQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
+        });
+    });
+
+    describe("removeHyphens", function() {
+        it("should return the same ULID if no hyphens are present", function() {
+            expect(removeHyphens("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with hyphens removed", function() {
+            expect(removeHyphens("01ARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+    });
+
+    describe("fixUlid", function() {
+        it("should return the same ULID if no typos or hyphens are present", function() {
+            expect(fixUlid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
+        });
+
+        it("should return the correct ULID with typos fixed", function() {
+            expect(fixUlid("oLARYZ6S41TSV4RRFFQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
+        });
+
+        it("should return the correct ULID with hyphens removed", function() {
+            expect(fixUlid("01ARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
+        });
+
+        it("should return the correct ULID with typos fixed and hyphens removed", function() {
+            expect(fixUlid("oLARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal("01ARYZ6S41TSV4RRFFQ69G5FAV");
         });
     });
 });
