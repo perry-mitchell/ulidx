@@ -75,16 +75,14 @@ isValid("01ARYZ6S41TSV4RRFFQ69G5FAV"); // true
 isValid("01ARYZ6S41TSV4RRFFQ69G5FA"); // false
 ```
 
-### Typos tolerance and Hyphened ULIDs
+### Crockford's Base32 (Typos tolerance and Hyphened ULIDs)
 
-Import `fixTypos` to fix typos, `removeHyphens` to remove hyphens, and `fixUlid` to fix both in a ULID:
+Import `fixULIDBase32` to fix typos and remove hyphens in a ULID:
 
 ```typescript
-import { fixTypos, removeHyphens, fixUlid } from "ulidx";
+import { fixULIDBase32 } from "ulidx";
 
-fixTypos("oLARYZ6S41TSV4RRFFQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
-removeHyphens("01ARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
-fixUlid("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
+fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
 ```
 
 ## Pseudo-Random Number Generation (PRNG)

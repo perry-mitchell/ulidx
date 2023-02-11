@@ -253,19 +253,12 @@ export function isValid(id: string): boolean {
     );
 }
 
-// i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0
-export function fixTypos(id: string): string {
+// i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0.
+// hyphens are ignored during decoding.
+export function fixULIDBase32(id: string): string {
     return id
         .replace(/i/gi, "1")
         .replace(/l/gi, "1")
-        .replace(/o/gi, "0");
-}
-
-// hyphens are ignored during decoding.
-export function removeHyphens(id: string): string {
-    return id.replace(/-/g, "");
-}
-
-export function fixUlid(id: string): string {
-    return fixTypos(removeHyphens(id));
+        .replace(/o/gi, "0")
+        .replace(/-/g, "");
 }
