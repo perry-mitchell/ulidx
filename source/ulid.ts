@@ -4,8 +4,8 @@ import { PRNG, ULID, ULIDFactory } from "./types";
 // These values should NEVER change. The values are precisely for
 // generating ULIDs.
 const ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"; // Crockford's Base32
-const ENCODING_LEN = ENCODING.length;
-const TIME_MAX = Math.pow(2, 48) - 1;
+const ENCODING_LEN = 32; // from ENCODING.length;
+const TIME_MAX = 281474976710655; // from Math.pow(2, 48) - 1;
 const TIME_LEN = 10;
 const RANDOM_LEN = 16;
 
@@ -251,4 +251,14 @@ export function isValid(id: string): boolean {
             .split("")
             .every(char => ENCODING.indexOf(char) !== -1)
     );
+}
+
+// i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0.
+// hyphens are ignored during decoding.
+export function fixULIDBase32(id: string): string {
+    return id
+        .replace(/i/gi, "1")
+        .replace(/l/gi, "1")
+        .replace(/o/gi, "0")
+        .replace(/-/g, "");
 }

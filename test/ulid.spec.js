@@ -8,7 +8,8 @@ const {
     monotonicFactory,
     randomChar,
     ulid,
-    isValid
+    isValid,
+    fixULIDBase32
 } = require("../dist/ulid.js");
 
 describe("ulid", function() {
@@ -206,11 +207,37 @@ describe("ulid", function() {
         });
 
         it("should return false for invalid ULIDs (wrong characters)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA!")).to.be.false;
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAu")).to.be.false;
         });
 
         it("should return false for invalid ULIDs (wrong type)", function() {
             expect(isValid(123)).to.be.false;
+        });
+    });
+
+    describe("fixULIDBase32", function() {
+        it("should return the same ULID if no typos or hyphens are present", function() {
+            expect(fixULIDBase32("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed", function() {
+            expect(fixULIDBase32("oLARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with hyphens removed", function() {
+            expect(fixULIDBase32("01ARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed and hyphens removed", function() {
+            expect(fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
         });
     });
 });

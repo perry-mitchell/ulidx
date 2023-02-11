@@ -75,6 +75,16 @@ isValid("01ARYZ6S41TSV4RRFFQ69G5FAV"); // true
 isValid("01ARYZ6S41TSV4RRFFQ69G5FA"); // false
 ```
 
+### Crockford's Base32 (Typos tolerance and Hyphened ULIDs)
+
+Import `fixULIDBase32` to fix typos and remove hyphens in a ULID:
+
+```typescript
+import { fixULIDBase32 } from "ulidx";
+
+fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
+```
+
 ## Pseudo-Random Number Generation (PRNG)
 
 `ulidx` will attempt to locate a suitable cryptographically-secure random number generator in the environment where it's loaded. On NodeJS this will be `crypto.randomBytes` and in the browser it will be `crypto.getRandomValues`.
