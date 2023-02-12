@@ -1,5 +1,10 @@
 # ulidx changelog
 
+## v0.5.0
+_2023-02-12_
+
+ * `fixULIDBase32` method for cleaning up ULIDs by checking their Base32 encoding
+
 ## v0.4.0
 _2022-12-31_
 
