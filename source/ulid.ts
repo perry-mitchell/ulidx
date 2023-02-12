@@ -1,5 +1,5 @@
 import { Layerr } from "layerr";
-import { PRNG, ULID, ULIDFactory } from "./types";
+import { PRNG, ULID, ULIDFactory } from "./types.js";
 
 // These values should NEVER change. The values are precisely for
 // generating ULIDs.

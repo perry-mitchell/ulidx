@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "module": "commonjs",
-        "declaration": true,
-        "target": "es5",
+        "esModuleInterop": true,
+        "outDir": "./dist/esm",
+        "module": "es2020",
+        "moduleResolution": "node16",
+        "declaration": false,
+        "target": "es2020",
         "types": ["node"]
     },
     "include": [
