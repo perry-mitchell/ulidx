@@ -159,6 +159,21 @@ export function encodeTime(now: number, len: number): string {
     return str;
 }
 
+/**
+ * Fix a ULID's Base32 encoding -
+ * i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0.
+ * hyphens are ignored during decoding.
+ * @param id
+ * @returns The cleaned up ULID
+ */
+export function fixULIDBase32(id: string): string {
+    return id
+        .replace(/i/gi, "1")
+        .replace(/l/gi, "1")
+        .replace(/o/gi, "0")
+        .replace(/-/g, "");
+}
+
 export function incrementBase32(str: string): string {
     let done: string = undefined,
         index = str.length,
@@ -205,6 +220,17 @@ function inWebWorker(): boolean {
     return typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
 }
 
+export function isValid(id: string): boolean {
+    return (
+        typeof id === "string" &&
+        id.length === TIME_LEN + RANDOM_LEN &&
+        id
+            .toUpperCase()
+            .split("")
+            .every(char => ENCODING.indexOf(char) !== -1)
+    );
+}
+
 export function monotonicFactory(prng?: PRNG): ULIDFactory {
     const currentPRNG = prng || detectPRNG();
     let lastTime: number = 0,
@@ -240,25 +266,4 @@ export function ulid(seedTime?: number, prng?: PRNG): ULID {
     const currentPRNG = prng || detectPRNG();
     const seed = isNaN(seedTime) ? Date.now() : seedTime;
     return encodeTime(seed, TIME_LEN) + encodeRandom(RANDOM_LEN, currentPRNG);
-}
-
-export function isValid(id: string): boolean {
-    return (
-        typeof id === "string" &&
-        id.length === TIME_LEN + RANDOM_LEN &&
-        id
-            .toUpperCase()
-            .split("")
-            .every(char => ENCODING.indexOf(char) !== -1)
-    );
-}
-
-// i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0.
-// hyphens are ignored during decoding.
-export function fixULIDBase32(id: string): string {
-    return id
-        .replace(/i/gi, "1")
-        .replace(/l/gi, "1")
-        .replace(/o/gi, "0")
-        .replace(/-/g, "");
 }
