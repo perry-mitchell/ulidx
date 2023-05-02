@@ -1,5 +1,6 @@
+import crypto from "node:crypto";
 import { Layerr } from "layerr";
-import { PRNG, ULID, ULIDFactory } from "./types";
+import { PRNG, ULID, ULIDFactory } from "./types.js";
 
 // These values should NEVER change. The values are precisely for
 // generating ULIDs.
@@ -71,11 +72,8 @@ export function detectPRNG(root?: any): PRNG {
         };
     } else if (typeof globalCrypto?.randomBytes === "function") {
         return () => globalCrypto.randomBytes(1).readUInt8() / 0xff;
-    } else {
-        try {
-            const nodeCrypto = require("crypto");
-            return () => nodeCrypto.randomBytes(1).readUInt8() / 0xff;
-        } catch (e) {}
+    } else if (crypto?.randomBytes) {
+        return () => crypto.randomBytes(1).readUInt8() / 0xff;
     }
     throw new Layerr(
         {

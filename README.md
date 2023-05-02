@@ -11,7 +11,7 @@ ULID generator library, based off of the original [ulid](https://github.com/ulid
 
 Install using npm by running: `npm install ulidx --save`.
 
-`ulidx` provides types and is written entirely in Typescript.
+`ulidx` provides types and is written entirely in Typescript. It provides both ESM and CommonJS outputs.
 
 ## Usage
 
@@ -95,7 +95,7 @@ fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
 
 `ulidx` is compatible with the following environments:
 
- * NodeJS 10 and up
+ * NodeJS 16 and up
    * Node REPL
  * Browsers with working `crypto` / `msCrypto` libraries
    * Web workers

@@ -2,17 +2,31 @@
   "name": "ulidx",
   "version": "0.5.0",
   "description": "ULID generator for NodeJS and the browser",
-  "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "benchmark": "node ./test/benchmark.js",
-    "build": "npm run clean && tsc",
+    "bench": "npm run build && node test/benchmark.js",
+    "build": "run-s clean build:bundle build:types",
+    "build:bundle": "rollup -c",
+    "xxbuild:cjs": "tsc -p tsconfig.cjs.json",
+    "xxbuild:esm": "tsc",
+    "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
     "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
     "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
-    "test:specs": "nyc mocha -t 10000 'test/**/*.spec.js'"
+    "test:specs": "run-s test:specs:esm test:specs:cjs",
+    "test:specs:cjs": "c8 --src ./dist/cjs --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/cjs/**/*.spec.cjs'",
+    "test:specs:esm": "c8 --src ./dist/esm --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/esm/**/*.spec.js'"
   },
   "files": [
     "dist/**/*"
@@ -21,6 +35,9 @@
     "{source,test}/**/*.{js,ts}": [
       "prettier --write"
     ]
+  },
+  "engines": {
+    "node": ">=16"
   },
   "husky": {
     "hooks": {
@@ -45,17 +62,23 @@
   },
   "homepage": "https://github.com/perry-mitchell/ulidx#readme",
   "devDependencies": {
-    "@types/node": "^15.12.0",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/node": "^18.16.3",
     "benchmark": "^2.1.4",
+    "c8": "^7.12.0",
     "chai": "^4.3.4",
     "husky": "^4.3.8",
     "lint-staged": "^11.0.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
+    "rollup": "^3.21.3",
     "sinon": "^11.1.1",
-    "typescript": "^4.3.2"
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "layerr": "^0.1.2"
