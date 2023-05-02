@@ -16,8 +16,6 @@
     "bench": "npm run build && node test/benchmark.js",
     "build": "run-s clean build:bundle build:types",
     "build:bundle": "rollup -c",
-    "xxbuild:cjs": "tsc -p tsconfig.cjs.json",
-    "xxbuild:esm": "tsc",
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
     "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
