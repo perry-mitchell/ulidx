@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "outDir": "./dist/cjs",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "declaration": false,
+        "target": "es5",
+        "types": ["node"]
+    },
+    "include": [
+        "./source/**/*"
+    ],
+    "exclude":[
+        "node_modules"
+    ]
+}

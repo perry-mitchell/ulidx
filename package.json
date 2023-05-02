@@ -13,7 +13,8 @@
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "run-s clean build:esm build:types",
+    "build": "run-s clean build:esm build:cjs build:types",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc",
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
