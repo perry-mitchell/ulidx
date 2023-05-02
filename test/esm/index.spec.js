@@ -1,15 +1,14 @@
-const { expect } = require("chai");
-const sinon = require("sinon");
-const {
+import { expect } from "chai";
+import sinon from "sinon";
+import {
     decodeTime,
-    encodeTime,
     detectPRNG,
-    encodeRandom,
+    encodeTime,
+    fixULIDBase32,
+    isValid,
     monotonicFactory,
-    randomChar,
-    ulid,
-    isValid
-} = require("../../dist/cjs/ulid.js");
+    ulid
+} from "../../dist/esm/index.js";
 
 describe("ulid", function() {
     describe("decodeTime", function() {
@@ -64,16 +63,6 @@ describe("ulid", function() {
         });
     });
 
-    describe("encodeRandom", function() {
-        beforeEach(function() {
-            this.prng = detectPRNG();
-        });
-
-        it("should return correct length", function() {
-            expect(encodeRandom(12, this.prng)).to.have.a.lengthOf(12);
-        });
-    });
-
     describe("encodeTime", function() {
         it("should return expected encoded result", function() {
             expect(encodeTime(1469918176385, 10)).to.equal("01ARYZ6S41");
@@ -120,6 +109,54 @@ describe("ulid", function() {
         });
     });
 
+<<<<<<< HEAD:test/esm/ulid.spec.js
+    describe("fixULIDBase32", function() {
+        it("should return the same ULID if no typos or hyphens are present", function() {
+            expect(fixULIDBase32("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed", function() {
+            expect(fixULIDBase32("oLARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with hyphens removed", function() {
+            expect(fixULIDBase32("01ARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed and hyphens removed", function() {
+            expect(fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+=======
+    describe("isValid", function() {
+        it("should return true for valid ULIDs (uppercase)", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.be.true;
+        });
+
+        it("should return true for valid ULIDs (lowercase)", function() {
+            expect(isValid("01aryz6s41tsv4rrffq69g5fav")).to.be.true;
+        });
+
+        it("should return false for invalid ULIDs (wrong length)", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA")).to.be.false;
+        });
+
+        it("should return false for invalid ULIDs (wrong characters)", function() {
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA!")).to.be.false;
+        });
+
+        it("should return false for invalid ULIDs (wrong type)", function() {
+            expect(isValid(123)).to.be.false;
+>>>>>>> 1dac2eb (Fix tests for CJS/ESM):test/esm/index.spec.js
+        });
+    });
+
     describe("monotonicFactory", function() {
         it("outputs a function", function() {
             expect(monotonicFactory()).to.be.a("function");
@@ -162,26 +199,6 @@ describe("ulid", function() {
         });
     });
 
-    describe("randomChar", function() {
-        beforeEach(function() {
-            this.prng = detectPRNG();
-        });
-
-        it("should never return undefined", function() {
-            for (let x = 0; x < 320000; x++) {
-                const randChar = randomChar(this.prng);
-                expect(randChar).to.not.be.undefined;
-            }
-        });
-
-        it("should never return an empty string", function() {
-            for (let x = 0; x < 320000; x++) {
-                const randChar = randomChar(this.prng);
-                expect(randChar).to.not.equal("");
-            }
-        });
-    });
-
     describe("ulid", function() {
         it("should return correct length", function() {
             expect(ulid()).to.have.a.lengthOf(26);
@@ -191,6 +208,7 @@ describe("ulid", function() {
             expect(ulid(1469918176385).substring(0, 10)).to.equal("01ARYZ6S41");
         });
     });
+<<<<<<< HEAD:test/esm/ulid.spec.js
 
     describe("isValid", function() {
         it("should return true for valid ULIDs (uppercase)", function() {
@@ -206,11 +224,13 @@ describe("ulid", function() {
         });
 
         it("should return false for invalid ULIDs (wrong characters)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA!")).to.be.false;
+            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAu")).to.be.false;
         });
 
         it("should return false for invalid ULIDs (wrong type)", function() {
             expect(isValid(123)).to.be.false;
         });
     });
+=======
+>>>>>>> 1dac2eb (Fix tests for CJS/ESM):test/esm/index.spec.js
 });
