@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "esModuleInterop": true,
-        "outDir": "./dist/esm",
         "module": "es2020",
         "moduleResolution": "node16",
         "declaration": false,

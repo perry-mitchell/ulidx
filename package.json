@@ -13,9 +13,10 @@
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "run-s clean build:esm build:cjs build:types",
-    "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsc",
+    "build": "run-s clean build:bundle build:types",
+    "build:bundle": "rollup -c",
+    "xxbuild:cjs": "tsc -p tsconfig.cjs.json",
+    "xxbuild:esm": "tsc",
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
     "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
@@ -57,7 +58,10 @@
   },
   "homepage": "https://github.com/perry-mitchell/ulidx#readme",
   "devDependencies": {
-    "@types/node": "^18.11.18",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/node": "^18.16.3",
     "c8": "^7.12.0",
     "chai": "^4.3.4",
     "husky": "^4.3.8",
@@ -66,8 +70,10 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
+    "rollup": "^3.21.3",
     "sinon": "^11.1.1",
-    "typescript": "^4.9.4"
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "layerr": "^0.1.2"

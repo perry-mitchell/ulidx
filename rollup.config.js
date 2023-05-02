@@ -1,39 +1,28 @@
 import { builtinModules } from "node:module";
 import typescript from "@rollup/plugin-typescript";
+import resolve from "@rollup/plugin-node-resolve";
 import pkg from "./package.json" assert { type:"json" };
 
-const base = {
+const EXTENSIONS = [".js", ".ts"];
+
+export default {
     external: [
         ...builtinModules,
-        ...(pkg.dependencies ? Object.keys(pkg.dependencies) : []),
-        ...(pkg.devDependencies ? Object.keys(pkg.devDependencies) : []),
-        ...(pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : [])
-    ]
-};
-
-export default [
-    {
-        ...base,
-        input: "source/index.ts",
-        output: {
+        ...(pkg.dependencies ? Object.keys(pkg.dependencies) : [])
+    ],
+    input: "source/index.ts",
+    output: [
+        {
             dir: "dist/cjs",
-            format: "cjs"
+            format: "cjs",
+            entryFileNames: "[name].cjs"
         },
-        plugins: [typescript({
-            tsconfig: "tsconfig.cjs.json"
-        })],
-        preserveModules: true
-    },
-    {
-        ...base,
-        input: "source/index.ts",
-        output: {
+        {
             dir: "dist/esm",
             format: "esm"
-        },
-        plugins: [typescript({
-            tsconfig: "tsconfig.json"
-        })],
-        preserveModules: true
-    }
-];
+        }
+    ],
+    plugins: [typescript({
+        tsconfig: "tsconfig.json"
+    }), resolve({ extensions: EXTENSIONS })]
+};
