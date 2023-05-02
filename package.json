@@ -1,6 +1,6 @@
 {
   "name": "ulidx",
-  "version": "0.5.0",
+  "version": "1.0.0-r1",
   "description": "ULID generator for NodeJS and the browser",
   "type": "module",
   "exports": {

@@ -1,5 +1,12 @@
 # ulidx changelog
 
+## v1.0.0
+_2023-05-02_
+
+ * ESM
+   * CommonJS/ESM builds
+ * Node 16 minimum
+
 ## v0.5.0
 _2023-02-12_
 
