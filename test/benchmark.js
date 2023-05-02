@@ -1,8 +1,7 @@
-const { ulid } = require("./dist/ulid");
+import Benchmark from "benchmark";
+import { ulid } from "../dist/esm/index.js";
 
-var Benchmark = require("benchmark");
-
-var suite = new Benchmark.Suite();
+const suite = new Benchmark.Suite();
 
 // add tests
 suite.add("Simple ulid", function() {
@@ -11,6 +10,7 @@ suite.add("Simple ulid", function() {
 suite.add("ulid with timestamp", function() {
     ulid(Date.now());
 });
+
 // add listeners
 suite.on("cycle", function(event) {
     console.log(String(event.target));
@@ -18,5 +18,6 @@ suite.on("cycle", function(event) {
 suite.on("complete", function() {
     console.log("Done!");
 });
+
 // run async
 suite.run({ async: true });
