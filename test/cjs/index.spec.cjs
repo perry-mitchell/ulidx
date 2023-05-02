@@ -4,6 +4,7 @@ const {
     decodeTime,
     detectPRNG,
     encodeTime,
+    fixULIDBase32,
     isValid,
     monotonicFactory,
     ulid
@@ -105,6 +106,32 @@ describe("ulid", function() {
                     encodeTime(100.1);
                 }).to.throw(/Time must be an integer/);
             });
+        });
+    });
+
+    describe("fixULIDBase32", function() {
+        it("should return the same ULID if no typos or hyphens are present", function() {
+            expect(fixULIDBase32("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed", function() {
+            expect(fixULIDBase32("oLARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with hyphens removed", function() {
+            expect(fixULIDBase32("01ARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
+        });
+
+        it("should return the correct ULID with typos fixed and hyphens removed", function() {
+            expect(fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
+                "01ARYZ6S41TSV4RRFFQ69G5FAV"
+            );
         });
     });
 

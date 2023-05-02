@@ -109,7 +109,6 @@ describe("ulid", function() {
         });
     });
 
-<<<<<<< HEAD:test/esm/ulid.spec.js
     describe("fixULIDBase32", function() {
         it("should return the same ULID if no typos or hyphens are present", function() {
             expect(fixULIDBase32("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.equal(
@@ -133,7 +132,9 @@ describe("ulid", function() {
             expect(fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV")).to.equal(
                 "01ARYZ6S41TSV4RRFFQ69G5FAV"
             );
-=======
+        });
+    });
+
     describe("isValid", function() {
         it("should return true for valid ULIDs (uppercase)", function() {
             expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.be.true;
@@ -153,7 +154,6 @@ describe("ulid", function() {
 
         it("should return false for invalid ULIDs (wrong type)", function() {
             expect(isValid(123)).to.be.false;
->>>>>>> 1dac2eb (Fix tests for CJS/ESM):test/esm/index.spec.js
         });
     });
 
@@ -208,29 +208,4 @@ describe("ulid", function() {
             expect(ulid(1469918176385).substring(0, 10)).to.equal("01ARYZ6S41");
         });
     });
-<<<<<<< HEAD:test/esm/ulid.spec.js
-
-    describe("isValid", function() {
-        it("should return true for valid ULIDs (uppercase)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAV")).to.be.true;
-        });
-
-        it("should return true for valid ULIDs (lowercase)", function() {
-            expect(isValid("01aryz6s41tsv4rrffq69g5fav")).to.be.true;
-        });
-
-        it("should return false for invalid ULIDs (wrong length)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FA")).to.be.false;
-        });
-
-        it("should return false for invalid ULIDs (wrong characters)", function() {
-            expect(isValid("01ARYZ6S41TSV4RRFFQ69G5FAu")).to.be.false;
-        });
-
-        it("should return false for invalid ULIDs (wrong type)", function() {
-            expect(isValid(123)).to.be.false;
-        });
-    });
-=======
->>>>>>> 1dac2eb (Fix tests for CJS/ESM):test/esm/index.spec.js
 });
