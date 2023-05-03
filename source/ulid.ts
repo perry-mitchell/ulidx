@@ -28,6 +28,7 @@ export function decodeTime(id: string): number {
     }
     const time = id
         .substr(0, TIME_LEN)
+        .toUpperCase()
         .split("")
         .reverse()
         .reduce((carry, char, index) => {
