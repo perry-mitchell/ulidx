@@ -23,6 +23,11 @@ describe("ulid", function() {
             expect(decodeTime(id)).to.equal(1469918176385);
         });
 
+        it("should support decoding lower-case ULIDs", function() {
+            const id = "01aryz6s41tsv4rrffq69g5fav";
+            expect(decodeTime(id)).to.equal(1469918176385);
+        });
+
         it("should accept the maximum allowed timestamp", function() {
             expect(decodeTime("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")).to.equal(281474976710655);
         });
