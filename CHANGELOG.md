@@ -6,6 +6,8 @@ _2023-05-02_
  * ESM
    * CommonJS/ESM builds
  * Node 16 minimum
+ * **Bugfixes**:
+   * [#19](https://github.com/perry-mitchell/ulidx/issues/19): `decodeTime` fails on lower-case ULIDs
 
 ## v0.5.0
 _2023-02-12_
