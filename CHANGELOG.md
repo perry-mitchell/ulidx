@@ -1,7 +1,7 @@
 # ulidx changelog
 
 ## v1.0.0
-_2023-05-02_
+_2023-05-03_
 
  * ESM
    * CommonJS/ESM builds
