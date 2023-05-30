@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
     "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
-    "test:specs": "run-s test:specs:esm test:specs:cjs",
+    "test:specs": "run-s test:specs:esm test:specs:cjs test:specs:browser",
     "test:specs:browser": "mochify ./test/browser/*.spec.cjs",
     "test:specs:cjs": "c8 --src ./dist/cjs --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/cjs/**/*.spec.cjs'",
     "test:specs:esm": "c8 --src ./dist/esm --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/esm/**/*.spec.js'"
