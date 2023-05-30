@@ -27,7 +27,7 @@ jobs:
         node-version: [18.x]
     steps:
       - uses: actions/checkout@v2
-      - name: Node.js specs ${{ matrix.node-version }}
+      - name: Browser specs ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
