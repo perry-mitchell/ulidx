@@ -1,0 +1,66 @@
+const path = require("node:path");
+const ResolveTypeScriptPlugin = require("resolve-typescript-plugin");
+
+module.exports = {
+    devtool: false,
+
+    entry: path.resolve(__dirname, "./source/index.ts"),
+
+    externals: {
+        "node:crypto": path.resolve(__dirname, "./util/stub.cjs")
+    },
+
+    mode: "production",
+
+    module: {
+        rules: [
+            {
+                test: /\.[jt]s$/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-typescript",
+                            ["@babel/preset-env", {
+                                targets: "> 0.25%, not dead",
+                                useBuiltIns: false
+                            }]
+                        ]
+                    }
+                },
+                resolve: {
+                    fullySpecified: false
+                }
+            }
+        ]
+    },
+
+    output: {
+        filename: "index.js",
+        path: path.resolve(__dirname, "./dist/browser"),
+        library: {
+            name: "ulidx",
+            type: "umd"
+        }
+    },
+
+    // plugins: [
+    //     new LoaderOptionsPlugin({
+    //         test: /\.[jt]s$/,
+    //     })
+    // ],
+
+    resolve: {
+        extensions: [".ts", ".js"],
+        fallback: {
+            buffer: false,
+            crypto: false
+        },
+        plugins: [
+            // Handle .ts => .js resolution
+            new ResolveTypeScriptPlugin()
+        ]
+    },
+
+    target: "web"
+};
