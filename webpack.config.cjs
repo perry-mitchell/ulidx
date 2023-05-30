@@ -44,7 +44,7 @@ module.exports = {
     plugins: [
         new NormalModuleReplacementPlugin(/node:/, (resource) => {
             resource.request = resource.request.replace(/^node:/, "");
-        }),
+        })
     ],
 
     resolve: {
