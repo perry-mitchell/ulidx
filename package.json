@@ -6,11 +6,15 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "node": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.cjs"
+      },
+      "browser": "./dist/browser/index.cjs"
     }
   },
   "main": "dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "bench": "npm run build && node test/benchmark.js",

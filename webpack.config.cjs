@@ -36,7 +36,7 @@ module.exports = {
     },
 
     output: {
-        filename: "index.js",
+        filename: "index.cjs",
         path: path.resolve(__dirname, "./dist/browser"),
         library: {
             name: "ulidx",
