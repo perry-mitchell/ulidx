@@ -1,14 +1,11 @@
 const path = require("node:path");
 const ResolveTypeScriptPlugin = require("resolve-typescript-plugin");
+const { NormalModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
     devtool: false,
 
     entry: path.resolve(__dirname, "./source/index.ts"),
-
-    externals: {
-        "node:crypto": "{}"
-    },
 
     mode: "production",
 
@@ -43,6 +40,12 @@ module.exports = {
             type: "umd"
         }
     },
+
+    plugins: [
+        new NormalModuleReplacementPlugin(/node:/, (resource) => {
+            resource.request = resource.request.replace(/^node:/, "");
+        }),
+    ],
 
     resolve: {
         extensions: [".ts", ".js"],
