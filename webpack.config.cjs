@@ -7,7 +7,7 @@ module.exports = {
     entry: path.resolve(__dirname, "./source/index.ts"),
 
     externals: {
-        "node:crypto": path.resolve(__dirname, "./util/stub.cjs")
+        "node:crypto": "{}"
     },
 
     mode: "production",
@@ -43,12 +43,6 @@ module.exports = {
             type: "umd"
         }
     },
-
-    // plugins: [
-    //     new LoaderOptionsPlugin({
-    //         test: /\.[jt]s$/,
-    //     })
-    // ],
 
     resolve: {
         extensions: [".ts", ".js"],
