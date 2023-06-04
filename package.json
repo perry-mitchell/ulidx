@@ -7,33 +7,37 @@
     ".": {
       "types": "./dist/index.d.ts",
       "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.cjs"
+        "import": "./dist/node/index.js",
+        "require": "./dist/node/index.cjs"
       },
-      "browser": "./dist/browser/index.cjs"
+      "browser": {
+        "import": "./dist/browser/index.js",
+        "require": "./dist/browser/index.cjs"
+      }
     }
   },
-  "main": "dist/cjs/index.cjs",
-  "module": "./dist/esm/index.js",
+  "main": "dist/node/index.cjs",
+  "module": "./dist/node/index.js",
   "browser": {
-    "./dist/cjs/index.cjs": "./dist/browser/index.cjs"
+    "./dist/node/index.cjs": "./dist/browser/index.cjs",
+    "./dist/node/index.js": "./dist/browser/index.js"
   },
   "types": "dist/index.d.ts",
   "scripts": {
     "bench": "npm run build && node test/benchmark.js",
     "build": "run-s clean build:node build:browser build:types",
-    "build:browser": "webpack --config webpack.config.cjs",
-    "build:node": "rollup -c",
+    "build:browser": "MODE=browser rollup -c --name ulidx",
+    "build:node": "MODE=node rollup -c",
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
     "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
     "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
-    "test:specs": "run-s test:specs:esm test:specs:cjs test:specs:browser",
-    "test:specs:browser": "mochify ./test/browser/*.spec.cjs",
-    "test:specs:cjs": "c8 --src ./dist/cjs --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/cjs/**/*.spec.cjs'",
-    "test:specs:esm": "c8 --src ./dist/esm --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/esm/**/*.spec.js'"
+    "test:specs": "run-s test:node:esm test:node:cjs test:browser:cjs",
+    "test:browser:cjs": "mochify ./test/browser-cjs/*.spec.cjs",
+    "test:node:cjs": "c8 --src ./dist/node/index.cjs --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/node-cjs/**/*.spec.cjs'",
+    "test:node:esm": "c8 --src ./dist/node/index.js --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/node-esm/**/*.spec.js'"
   },
   "files": [
     "dist/**/*"
@@ -70,10 +74,10 @@
   "homepage": "https://github.com/perry-mitchell/ulidx#readme",
   "devDependencies": {
     "@babel/core": "^7.22.1",
-    "@babel/preset-env": "^7.22.4",
     "@babel/preset-typescript": "^7.21.5",
+    "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/node": "^18.16.3",
     "babel-loader": "^9.1.2",
@@ -96,6 +100,6 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
-    "layerr": "^0.1.2"
+    "layerr": "^2.0.0"
   }
 }
