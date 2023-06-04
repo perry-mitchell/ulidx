@@ -1,5 +1,14 @@
 # ulidx changelog
 
+## v2.0.0
+_2023-06-04_
+
+ * Multiple builds for different environments:
+   * Node ESM
+   * Node CJS
+   * Browser ESM
+   * Browser CJS
+
 ## v1.0.0
 _2023-05-03_
 

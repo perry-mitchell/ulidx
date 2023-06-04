@@ -105,11 +105,16 @@ fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
 
  ¹ React-Native is supported if `crypto.getRandomValues()` is polyfilled. [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values) is one such library that should work well with `ulidx`. It should be imported before `ulidx` is used.
 
-### Web
+### Browser
 
-`ulidx` provides a web bundle that is basically a UMD wrapper around a CommonJS build of the library. It should work as a stand-alone script (exposing `window.ulidx`), or via imports being processed by a build tool like Webpack or Rollup.
+`ulidx` provides browser bundles in both ESM and CommonJS varieties. Importing should be automatic, but you can import them directly:
 
-**Do note** that the standard web bundle is _sub optimal_, as tree shaking will not occur. It is therefore advised that, in situations where you control the build procedure and have tools available like Webpack or Rollup, you configure your build to include the **ESM** bundle instead at `ulidx/dist/esm/index.js`. You will need to disable bundling (by stubbing) for `node:crypto`, which can be easily handled in Webpack by using a plugin:
+ * `dist/browser/index.js` - Browser ESM build
+ * `dist/browser/index.cjs` - Browser CommonJS build
+
+Unlike version 1.x, these browser builds cannot simply be injected into the browser. They must be included in a build system of some kind, like Rollup or Webpack.
+
+Note that you can use the Node-based builds in the browser if you use such an aforementioned tool, but you will need to stub `node:crypto` to do so. Consider the following example in Webpack using a plugin:
 
 ```javascript
 {
