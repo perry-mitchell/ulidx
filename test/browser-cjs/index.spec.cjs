@@ -1,6 +1,6 @@
-import { expect } from "chai";
-import sinon from "sinon";
-import {
+const { expect } = require("chai");
+const sinon = require("sinon");
+const {
     decodeTime,
     detectPRNG,
     encodeTime,
@@ -8,7 +8,7 @@ import {
     isValid,
     monotonicFactory,
     ulid
-} from "../../dist/esm/index.js";
+} = require("../../dist/browser/index.cjs");
 
 describe("ulid", function() {
     describe("decodeTime", function() {

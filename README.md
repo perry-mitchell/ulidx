@@ -107,4 +107,20 @@ fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
 
 ### Web
 
-`ulidx` is not currently bundled for web - you can do this yourself using a tool like Webpack or Rollup. You should absolutely disable polyfills for `crypto` in this case, as `ulidx` will use the built-in `crypto` global API rather than any polyfilled crypto anyway. Including a polyfill for crypto will just bloat your application.
+`ulidx` provides a web bundle that is basically a UMD wrapper around a CommonJS build of the library. It should work as a stand-alone script (exposing `window.ulidx`), or via imports being processed by a build tool like Webpack or Rollup.
+
+**Do note** that the standard web bundle is _sub optimal_, as tree shaking will not occur. It is therefore advised that, in situations where you control the build procedure and have tools available like Webpack or Rollup, you configure your build to include the **ESM** bundle instead at `ulidx/dist/esm/index.js`. You will need to disable bundling (by stubbing) for `node:crypto`, which can be easily handled in Webpack by using a plugin:
+
+```javascript
+{
+    // ...
+
+    plugins: [
+        new NormalModuleReplacementPlugin(/node:/, (resource) => {
+            resource.request = resource.request.replace(/^node:/, "");
+        })
+    ]
+
+    // ...
+}
+```

@@ -18,7 +18,22 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: npm run test:specs
+      - run: npm run test:node:esm
+      - run: npm run test:node:cjs
+  browser:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Browser specs ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:browser:cjs
   formatting:
     runs-on: ubuntu-latest
     steps:
