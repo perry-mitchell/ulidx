@@ -18,8 +18,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: npm run test:specs:esm
-      - run: npm run test:specs:cjs
+      - run: npm run test:node:esm
+      - run: npm run test:node:cjs
   browser:
     runs-on: ubuntu-latest
     strategy:
@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: npm run test:specs:browser
+      - run: npm run test:browser:cjs
   formatting:
     runs-on: ubuntu-latest
     steps:
