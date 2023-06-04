@@ -15,6 +15,9 @@
   },
   "main": "dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",
+  "browser": {
+    "./dist/cjs/index.cjs": "./dist/browser/index.cjs"
+  },
   "types": "dist/index.d.ts",
   "scripts": {
     "bench": "npm run build && node test/benchmark.js",
