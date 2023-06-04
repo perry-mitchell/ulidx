@@ -8,7 +8,7 @@ import {
     isValid,
     monotonicFactory,
     ulid
-} from "../../dist/esm/index.js";
+} from "../../dist/node/index.js";
 
 describe("ulid", function() {
     describe("decodeTime", function() {

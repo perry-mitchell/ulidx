@@ -8,7 +8,7 @@ const {
     isValid,
     monotonicFactory,
     ulid
-} = require("../../dist/cjs/index.cjs");
+} = require("../../dist/node/index.cjs");
 
 describe("ulid", function() {
     describe("decodeTime", function() {

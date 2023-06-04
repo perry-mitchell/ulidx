@@ -95,9 +95,7 @@
     "rollup": "^3.21.3",
     "sinon": "^11.1.1",
     "tslib": "^2.5.0",
-    "typescript": "^5.0.4",
-    "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1"
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "layerr": "^2.0.0"
