@@ -5,12 +5,8 @@ import alias from "@rollup/plugin-alias";
 import pkg from "./package.json" assert { type:"json" };
 
 const EXTENSIONS = [".js", ".ts"];
-const MODE = process.env.MODE ? process.env.MODE : "node";
-
-// const externals = MODE === "node" ? [
-//     ...builtinModules,
-//     ...(pkg.dependencies ? Object.keys(pkg.dependencies) : [])
-// ] : [...builtinModules];
+const ENV = process.env.ENV ? process.env.ENV : "node";
+const FMT = process.env.FMT ? process.env.FMT : "esm";
 
 const plugins = [
     typescript({
@@ -18,27 +14,27 @@ const plugins = [
     }),
     resolve({ extensions: EXTENSIONS })
 ];
-if (MODE === "browser") {
+if (ENV === "browser") {
     plugins.unshift(alias({
         entries: [
             { find: "node:crypto", replacement: "./stub.js" }
         ]
     }));
 }
+const extension = FMT === "cjs" ? "cjs" : "js";
+const externals = FMT === "esm" ? [
+    ...builtinModules,
+    ...(pkg.dependencies ? Object.keys(pkg.dependencies) : [])
+] : [...builtinModules];
 
 export default {
-    external: [...builtinModules],
+    external: externals,
     input: "source/index.ts",
     output: [
         {
-            dir: `dist/${MODE}`,
-            format: "cjs",
-            entryFileNames: "[name].cjs"
-        },
-        {
-            dir: `dist/${MODE}`,
-            format: "esm",
-            entryFileNames: "[name].js"
+            dir: `dist/${ENV}`,
+            format: FMT,
+            entryFileNames: `[name].${extension}`
         }
     ],
     plugins
