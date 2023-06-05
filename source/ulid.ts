@@ -97,7 +97,7 @@ function detectRoot(): any {
     }
     if (typeof globalThis !== "undefined") {
         return globalThis;
-    }    
+    }
     return null;
 }
 
