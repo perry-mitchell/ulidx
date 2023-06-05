@@ -8,6 +8,7 @@ _2023-06-04_
    * Node CJS
    * Browser ESM
    * Browser CJS
+ * [#24](https://github.com/perry-mitchell/ulidx/pull/24): Add `globalThis` to support Vercel Edge runtime
 
 ## v1.0.0
 _2023-05-03_
