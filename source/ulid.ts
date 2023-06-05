@@ -95,6 +95,9 @@ function detectRoot(): any {
     if (typeof global !== "undefined") {
         return global;
     }
+    if (typeof globalThis !== "undefined") {
+        return globalThis;
+    }    
     return null;
 }
 
