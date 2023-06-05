@@ -166,11 +166,7 @@ export function encodeTime(now: number, len: number): string {
  * @returns The cleaned up ULID
  */
 export function fixULIDBase32(id: string): string {
-    return id
-        .replace(/i/gi, "1")
-        .replace(/l/gi, "1")
-        .replace(/o/gi, "0")
-        .replace(/-/g, "");
+    return id.replace(/i/gi, "1").replace(/l/gi, "1").replace(/o/gi, "0").replace(/-/g, "");
 }
 
 export function incrementBase32(str: string): string {

@@ -32,10 +32,10 @@
     "build:node:esm": "FMT=esm ENV=node rollup -c",
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
-    "format": "prettier --write \"{source,test}/**/*.{js,ts}\"",
+    "format": "prettier --write \"{{source,test}/**/*.{js,ts},rollup.config.js}\"",
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
-    "test:format": "prettier --check \"{source,test}/**/*.{js,ts}\"",
+    "test:format": "prettier --check \"{{source,test}/**/*.{js,ts},rollup.config.js}\"",
     "test:specs": "run-s test:node:esm test:node:cjs test:browser:cjs",
     "test:browser:cjs": "mochify ./test/browser-cjs/*.spec.cjs",
     "test:node:cjs": "c8 --src ./dist/node/index.cjs --check-coverage --lines 60 --functions 60 --branches 65 --statements 60 mocha -t 10000 'test/node-cjs/**/*.spec.cjs'",
@@ -45,7 +45,7 @@
     "dist/**/*"
   ],
   "lint-staged": {
-    "{source,test}/**/*.{js,ts}": [
+    "{{source,test}/**/*.{js,ts},rollup.config.js}": [
       "prettier --write"
     ]
   },
@@ -76,24 +76,24 @@
   "homepage": "https://github.com/perry-mitchell/ulidx#readme",
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0.0",
-    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "@types/node": "^18.16.3",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "@types/node": "^20.2.5",
     "benchmark": "^2.1.4",
-    "c8": "^7.12.0",
-    "chai": "^4.3.4",
+    "c8": "^7.14.0",
+    "chai": "^4.3.7",
     "husky": "^4.3.8",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^13.2.2",
     "mocha": "^10.2.0",
     "mochify": "^9.2.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
-    "rimraf": "^3.0.2",
-    "rollup": "^3.21.3",
-    "sinon": "^11.1.1",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.4"
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.23.1",
+    "sinon": "^15.1.0",
+    "tslib": "^2.5.3",
+    "typescript": "^5.1.3"
   },
   "dependencies": {
     "layerr": "^2.0.0"
