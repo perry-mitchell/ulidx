@@ -14,7 +14,7 @@ const plugins = [
     }),
     resolve({ extensions: EXTENSIONS })
 ];
-if (ENV === "browser") {
+if (ENV !== "node") {
     plugins.unshift(
         alias({
             entries: [{ find: "node:crypto", replacement: "./stub.js" }]
