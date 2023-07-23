@@ -101,11 +101,12 @@ fixULIDBase32("oLARYZ6-S41TSV4RRF-FQ69G5FAV"); // 01ARYZ6S41TSV4RRFFQ69G5FAV
    * Web workers
  * React-Native ¹
  * Edge compute
+   * Cloudflare Workers ²
    * Vercel Edge
 
-`ulidx` is _not_ compatible with Cloudflare Workers due to their [problematic stance on getting the current time](https://developers.cloudflare.com/workers/learning/security-model#step-1-disallow-timers-and-multi-threading).
-
  ¹ React-Native is supported if `crypto.getRandomValues()` is polyfilled. [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values) is one such library that should work well with `ulidx`. It should be imported before `ulidx` is used.
+
+ ² `ulidx` is not _fully_ compatible with Cloudflare Workers due to their [problematic stance on getting the current time](https://developers.cloudflare.com/workers/learning/security-model#step-1-disallow-timers-and-multi-threading). It is recommended to only use monotonic factories in this runtime.
 
 ### Browser
 

@@ -1,5 +1,12 @@
 # ulidx changelog
 
+## v2.1.0
+_2023-07-23_
+
+ * [#13](https://github.com/perry-mitchell/ulidx/issues/13): First-party support for Cloudflare workers
+   * `worker` export definition
+ * React-Native export definition
+
 ## v2.0.0
 _2023-06-04_
 
