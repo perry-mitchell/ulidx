@@ -13,6 +13,10 @@
       "browser": {
         "import": "./dist/browser/index.js",
         "require": "./dist/browser/index.cjs"
+      },
+      "worker": {
+        "import": "./dist/browser/index.js",
+        "require": "./dist/browser/index.cjs"
       }
     }
   },
