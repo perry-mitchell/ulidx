@@ -22,6 +22,7 @@
     "./dist/node/index.cjs": "./dist/browser/index.cjs",
     "./dist/node/index.js": "./dist/browser/index.js"
   },
+  "react-native": "./dist/browser/index.cjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "bench": "npm run build && node test/benchmark.js",
