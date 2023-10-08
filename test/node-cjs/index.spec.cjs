@@ -7,7 +7,9 @@ const {
     fixULIDBase32,
     isValid,
     monotonicFactory,
-    ulid
+    ulid,
+    MIN_ULID,
+    MAX_ULID
 } = require("../../dist/node/index.cjs");
 
 describe("ulid", function() {
@@ -211,6 +213,16 @@ describe("ulid", function() {
 
         it("should return expected encoded time component result", function() {
             expect(ulid(1469918176385).substring(0, 10)).to.equal("01ARYZ6S41");
+        });
+    });
+
+    describe("constants", function () {
+        it("should export MIN_ULID", function () {
+            expect(MIN_ULID).to.equal("00000000000000000000000000");
+        });
+
+        it("should export MAX_ULID", function () {
+            expect(MAX_ULID).to.equal("7ZZZZZZZZZZZZZZZZZZZZZZZZZ");
         });
     });
 });
