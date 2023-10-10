@@ -1,15 +1,15 @@
 import { expect } from "chai";
 import sinon from "sinon";
 import {
+    MAX_ULID,
+    MIN_ULID,
     decodeTime,
     detectPRNG,
     encodeTime,
     fixULIDBase32,
     isValid,
     monotonicFactory,
-    ulid,
-    MIN_ULID,
-    MAX_ULID
+    ulid
 } from "../../dist/node/index.js";
 
 describe("ulid", function () {

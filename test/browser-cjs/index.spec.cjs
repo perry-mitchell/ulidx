@@ -1,15 +1,15 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
 const {
+    MAX_ULID,
+    MIN_ULID,
     decodeTime,
     detectPRNG,
     encodeTime,
     fixULIDBase32,
     isValid,
     monotonicFactory,
-    ulid,
-    MIN_ULID,
-    MAX_ULID
+    ulid
 } = require("../../dist/browser/index.cjs");
 
 describe("ulid", function() {
