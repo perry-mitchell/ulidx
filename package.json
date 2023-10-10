@@ -38,6 +38,8 @@
     "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
     "clean": "rimraf dist",
     "format": "prettier --write \"{{source,test}/**/*.{js,ts},rollup.config.js}\"",
+    "postinstall": "simple-git-hooks",
+    "pre:commit": "lint-staged",
     "prepublishOnly": "npm run build",
     "test": "npm run build && npm run test:specs && npm run test:format",
     "test:format": "prettier --check \"{{source,test}/**/*.{js,ts},rollup.config.js}\"",
@@ -57,10 +59,8 @@
   "engines": {
     "node": ">=16"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "simple-git-hooks": {
+    "pre-commit": "npm run pre:commit"
   },
   "repository": {
     "type": "git",
@@ -88,7 +88,6 @@
     "benchmark": "^2.1.4",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
-    "husky": "^4.3.8",
     "lint-staged": "^14.0.1",
     "mocha": "^10.2.0",
     "mochify": "^9.2.0",
@@ -96,6 +95,7 @@
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
     "rollup": "^4.0.2",
+    "simple-git-hooks": "^2.9.0",
     "sinon": "^16.1.0",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
