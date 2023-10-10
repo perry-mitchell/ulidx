@@ -2,7 +2,7 @@
 
 ## v2.2.1
 _2023-10-10_
- * [#31](https://github.com/perry-mitchell/ulidx/pull/31): Use prepare instead of postinstall for git hooks
+ * [#33](https://github.com/perry-mitchell/ulidx/pull/33): Use prepare instead of postinstall for git hooks
 
 ## v2.2.0
 _2023-10-10_
