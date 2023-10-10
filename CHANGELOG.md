@@ -1,5 +1,10 @@
 # ulidx changelog
 
+## v2.2.0
+_2023-10-10_
+
+ * [#30](https://github.com/perry-mitchell/ulidx/pull/30): `MIN_ULID` / `MAX_ULID` constants
+
 ## v2.1.0
 _2023-07-23_
 
