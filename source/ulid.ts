@@ -1,6 +1,8 @@
 import crypto from "node:crypto";
 import { Layerr } from "layerr";
-import { PRNG, ULID, ULIDFactory } from "./types.js";
+import { PRNG, ULID, ULIDFactory, UUID } from "./types.js";
+import { crockfordDecode, crockfordEncode } from "./crockford.js";
+import { ULID_REGEX, UUID_REGEX } from "./constants.js";
 
 // These values should NEVER change. The values are precisely for
 // generating ULIDs.
@@ -264,4 +266,48 @@ export function ulid(seedTime?: number, prng?: PRNG): ULID {
     const currentPRNG = prng || detectPRNG();
     const seed = isNaN(seedTime) ? Date.now() : seedTime;
     return encodeTime(seed, TIME_LEN) + encodeRandom(RANDOM_LEN, currentPRNG);
+}
+
+export function ulidToUUID(ulid: string): UUID {
+    const isValid = ULID_REGEX.test(ulid);
+
+    if (!isValid) {
+        throw new Layerr({ info: { code: "INVALID_ULID", ...ERROR_INFO } }, "Invalid ULID");
+    }
+
+    const uint8Array = crockfordDecode(ulid);
+    let uuid = Array.from(uint8Array)
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+
+    uuid =
+        uuid.substring(0, 8) +
+        "-" +
+        uuid.substring(8, 12) +
+        "-" +
+        uuid.substring(12, 16) +
+        "-" +
+        uuid.substring(16, 20) +
+        "-" +
+        uuid.substring(20);
+
+    return uuid;
+}
+
+export function uuidToULID(uuid: string): ULID {
+    const isValid = UUID_REGEX.test(uuid);
+
+    if (!isValid) {
+        throw new Layerr({ info: { code: "INVALID_UUID", ...ERROR_INFO } }, "Invalid UUID");
+    }
+
+    const uint8Array = new Uint8Array(
+        uuid
+            .replace(/-/g, "")
+            .match(/.{1,2}/g)
+            .map(byte => parseInt(byte, 16))
+    );
+    const ulid = crockfordEncode(uint8Array);
+
+    return ulid;
 }

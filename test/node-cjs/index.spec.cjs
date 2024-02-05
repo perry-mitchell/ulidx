@@ -1,15 +1,20 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
+const { randomUUID } = require("node:crypto");
 const {
     MAX_ULID,
     MIN_ULID,
+    ULID_REGEX,
+    UUID_REGEX,
     decodeTime,
     detectPRNG,
     encodeTime,
     fixULIDBase32,
     isValid,
     monotonicFactory,
-    ulid
+    ulid,
+    ulidToUUID,
+    uuidToULID
 } = require("../../dist/node/index.cjs");
 
 describe("ulid", function() {
@@ -223,6 +228,30 @@ describe("ulid", function() {
 
         it("should export MAX_ULID", function () {
             expect(MAX_ULID).to.equal("7ZZZZZZZZZZZZZZZZZZZZZZZZZ");
+        });
+    });
+
+    describe("ulid to uuid", function() {
+        it("should return a valid uuid", function() {
+            expect(ulidToUUID(ulid())).to.match(UUID_REGEX);
+        });
+
+        it("should throw an error if an invalid ulid is provided", function() {
+            expect(() => {
+                ulidToUUID("whatever");
+            }).to.throw(/Invalid ULID/);
+        });
+    });
+
+    describe("uuid to ulid", function() {
+        it("should return a valid ulid", function() {
+            expect(uuidToULID(randomUUID())).to.match(ULID_REGEX);
+        });
+
+        it("should throw an error if an invalid uuid is provided", function() {
+            expect(() => {
+                uuidToULID("whatever");
+            }).to.throw(/Invalid UUID/);
         });
     });
 });

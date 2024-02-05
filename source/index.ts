@@ -5,7 +5,9 @@ export {
     detectPRNG,
     isValid,
     monotonicFactory,
-    ulid
+    ulid,
+    ulidToUUID,
+    uuidToULID
 } from "./ulid.js";
 export * from "./constants.js";
 export * from "./types.js";
