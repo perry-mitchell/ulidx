@@ -268,18 +268,20 @@ export function ulid(seedTime?: number, prng?: PRNG): ULID {
     return encodeTime(seed, TIME_LEN) + encodeRandom(RANDOM_LEN, currentPRNG);
 }
 
+/**
+ * Convert a ULID to a UUID
+ * @param ulid The ULID to convert
+ * @returns A UUID string
+ */
 export function ulidToUUID(ulid: string): UUID {
     const isValid = ULID_REGEX.test(ulid);
-
     if (!isValid) {
         throw new Layerr({ info: { code: "INVALID_ULID", ...ERROR_INFO } }, "Invalid ULID");
     }
-
     const uint8Array = crockfordDecode(ulid);
     let uuid = Array.from(uint8Array)
         .map(byte => byte.toString(16).padStart(2, "0"))
         .join("");
-
     uuid =
         uuid.substring(0, 8) +
         "-" +
@@ -290,24 +292,24 @@ export function ulidToUUID(ulid: string): UUID {
         uuid.substring(16, 20) +
         "-" +
         uuid.substring(20);
-
     return uuid;
 }
 
+/**
+ * Convert a UUID to a ULID
+ * @param uuid The UUID to convert
+ * @returns A ULID string
+ */
 export function uuidToULID(uuid: string): ULID {
     const isValid = UUID_REGEX.test(uuid);
-
     if (!isValid) {
         throw new Layerr({ info: { code: "INVALID_UUID", ...ERROR_INFO } }, "Invalid UUID");
     }
-
     const uint8Array = new Uint8Array(
         uuid
             .replace(/-/g, "")
             .match(/.{1,2}/g)
             .map(byte => parseInt(byte, 16))
     );
-    const ulid = crockfordEncode(uint8Array);
-
-    return ulid;
+    return crockfordEncode(uint8Array);
 }
