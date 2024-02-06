@@ -1,5 +1,10 @@
 # ulidx changelog
 
+## v2.3.0
+_2024-02-06_
+
+ * [#28](https://github.com/perry-mitchell/ulidx/issues/28) `ulidToUUID` and `uuidToULID` conversion helpers for ULID/UUID
+
 ## v2.2.1
 _2023-10-10_
 
