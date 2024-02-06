@@ -16,6 +16,11 @@ const ERROR_INFO = Object.freeze({
     source: "ulid"
 });
 
+/**
+ * Decode time from a ULID
+ * @param id The ULID
+ * @returns The decoded timestamp
+ */
 export function decodeTime(id: string): number {
     if (id.length !== TIME_LEN + RANDOM_LEN) {
         throw new Layerr(
@@ -62,6 +67,11 @@ export function decodeTime(id: string): number {
     return time;
 }
 
+/**
+ * Detect the best PRNG (pseudo-random number generator)
+ * @param root The root to check from (global/window)
+ * @returns The PRNG function
+ */
 export function detectPRNG(root?: any): PRNG {
     const rootLookup = root || detectRoot();
     const globalCrypto =
@@ -111,6 +121,12 @@ export function encodeRandom(len: number, prng: PRNG): string {
     return str;
 }
 
+/**
+ * Encode the time portion of a ULID
+ * @param now The current timestamp
+ * @param len Length to generate
+ * @returns The encoded time
+ */
 export function encodeTime(now: number, len: number): string {
     if (isNaN(now)) {
         throw new Layerr(
@@ -167,7 +183,7 @@ export function encodeTime(now: number, len: number): string {
  * Fix a ULID's Base32 encoding -
  * i and l (case-insensitive) will be treated as 1 and o (case-insensitive) will be treated as 0.
  * hyphens are ignored during decoding.
- * @param id
+ * @param id The ULID
  * @returns The cleaned up ULID
  */
 export function fixULIDBase32(id: string): string {
@@ -220,6 +236,14 @@ function inWebWorker(): boolean {
     return typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
 }
 
+/**
+ * Check if a ULID is valid
+ * @param id The ULID to test
+ * @returns True if valid, false otherwise
+ * @example
+ *   isValid("01HNZX8JGFACFA36RBXDHEQN6E"); // true
+ *   isValid(""); // false
+ */
 export function isValid(id: string): boolean {
     return (
         typeof id === "string" &&
@@ -231,6 +255,15 @@ export function isValid(id: string): boolean {
     );
 }
 
+/**
+ * Create a ULID factory to generate monotonically-increasing
+ *  ULIDs
+ * @param prng The PRNG to use
+ * @returns A ulid factory
+ * @example
+ *  const ulid = monotonicFactory();
+ *  ulid(); // "01HNZXD07M5CEN5XA66EMZSRZW"
+ */
 export function monotonicFactory(prng?: PRNG): ULIDFactory {
     const currentPRNG = prng || detectPRNG();
     let lastTime: number = 0,
@@ -262,6 +295,14 @@ export function replaceCharAt(str: string, index: number, char: string): string 
     return str.substr(0, index) + char + str.substr(index + 1);
 }
 
+/**
+ * Generate a ULID
+ * @param seedTime Optional time seed
+ * @param prng Optional PRNG function
+ * @returns A ULID string
+ * @example
+ *  ulid(); // "01HNZXD07M5CEN5XA66EMZSRZW"
+ */
 export function ulid(seedTime?: number, prng?: PRNG): ULID {
     const currentPRNG = prng || detectPRNG();
     const seed = isNaN(seedTime) ? Date.now() : seedTime;
