@@ -5,18 +5,43 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/node/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/node/index.cjs"
+      },
       "node": {
-        "import": "./dist/node/index.js",
-        "require": "./dist/node/index.cjs"
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/node/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/node/index.cjs"
+        }
       },
       "browser": {
-        "import": "./dist/browser/index.js",
-        "require": "./dist/browser/index.cjs"
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/browser/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        }
       },
       "worker": {
-        "import": "./dist/browser/index.js",
-        "require": "./dist/browser/index.cjs"
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/browser/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        }
       }
     }
   },
@@ -35,7 +60,7 @@
     "build:browser:esm": "FMT=esm ENV=browser rollup -c --name ulidx",
     "build:node:cjs": "FMT=cjs ENV=node rollup -c",
     "build:node:esm": "FMT=esm ENV=node rollup -c",
-    "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly",
+    "build:types": "tsc -p tsconfig.dec.json --emitDeclarationOnly && find ./dist -name '*.d.ts' -exec sh -c 'cp {} $(dirname {})/$(basename -s .d.ts {}).d.cts' \\;",
     "clean": "rimraf dist",
     "format": "prettier --write \"{{source,test}/**/*.{js,ts},rollup.config.js}\"",
     "prepare": "simple-git-hooks",
