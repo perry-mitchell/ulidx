@@ -53,6 +53,7 @@
   },
   "react-native": "./dist/browser/index.cjs",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "bench": "npm run build && node test/benchmark.js",
     "build": "run-s clean build:node:cjs build:node:esm build:browser:cjs build:browser:esm build:types",
