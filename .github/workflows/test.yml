@@ -5,42 +5,56 @@ on:
     pull_request:
 
 jobs:
-  nodejs:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x, 20.x]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Node.js specs ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test:node:esm
-      - run: npm run test:node:cjs
-  browser:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Browser specs ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test:browser:cjs
-  formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Formatting
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
-      - run: npm ci
-      - run: npm run test:format
+    nodejs:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x, 20.x]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Node.js specs ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run build
+            - run: npm run test:node:esm
+            - run: npm run test:node:cjs
+    browser:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [20.x]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Browser specs ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run build
+            - run: npm run test:browser:cjs
+    types:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [20.x]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Type checks ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run build
+            - run: npx --yes @arethetypeswrong/cli@latest --pack .
+    formatting:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Formatting
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 20.x
+            - run: npm ci
+            - run: npm run test:format
