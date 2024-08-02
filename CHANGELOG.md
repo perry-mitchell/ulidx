@@ -1,5 +1,13 @@
 # ulidx changelog
 
+## v2.4.0
+_2024-08-02_
+
+ * [#42](https://github.com/perry-mitchell/ulidx/pull/42) Upgrade dependencies
+ * [#40](https://github.com/perry-mitchell/ulidx/pull/40) Mark sideEffects as `false`
+ * **Bugfix**:
+   * [#41](https://github.com/perry-mitchell/ulidx/pull/41) Fix CommonJS types
+
 ## v2.3.0
 _2024-02-06_
 
