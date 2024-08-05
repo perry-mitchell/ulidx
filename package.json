@@ -5,45 +5,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/node/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/node/index.cjs"
+      "types": {
+        "require": "./dist/index.d.cts",
+        "default": "./dist/index.d.ts"
       },
       "node": {
-        "import": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/node/index.js"
-        },
-        "require": {
-          "types": "./dist/index.d.cts",
-          "default": "./dist/node/index.cjs"
-        }
+        "require": "./dist/node/index.cjs",
+        "default": "./dist/node/index.js"
       },
-      "browser": {
-        "import": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/browser/index.js"
-        },
-        "require": {
-          "types": "./dist/index.d.cts",
-          "default": "./dist/browser/index.cjs"
-        }
-      },
-      "worker": {
-        "import": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/browser/index.js"
-        },
-        "require": {
-          "types": "./dist/index.d.cts",
-          "default": "./dist/browser/index.cjs"
-        }
+      "default": {
+        "require": "./dist/browser/index.cjs",
+        "default": "./dist/browser/index.js"
       }
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "dist/node/index.cjs",
   "module": "./dist/node/index.js",
