@@ -1,5 +1,10 @@
 # ulidx changelog
 
+## v2.4.1
+_2024-08-25_
+
+ * [#44](https://github.com/perry-mitchell/ulidx/pull/44) Package exports improvements / fix
+
 ## v2.4.0
 _2024-08-02_
 
