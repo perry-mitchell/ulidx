@@ -64,13 +64,13 @@ describe("ulid", function () {
                 this.prng = detectPRNG();
             });
 
-            it("should produce a number", function () {
-                expect(this.prng()).to.be.a("number");
-                expect(this.prng()).to.satisfy(num => !isNaN(num));
+            it("should produce an array with numbers", function () {
+                expect(this.prng(1)[0]).to.be.a("number");
+                expect(this.prng(1)[0]).to.satisfy(num => !isNaN(num));
             });
 
-            it("should be between 0 and 1", function () {
-                expect(this.prng()).to.satisfy(num => num >= 0 && num <= 1);
+            it("should be between 0 and 255", function () {
+                expect(this.prng(1)[0]).to.satisfy(num => num >= 0 && num <= 255);
             });
         });
     });
@@ -176,7 +176,13 @@ describe("ulid", function () {
 
         describe("returned function", function () {
             before(function () {
-                this.prng = sinon.stub().returns(0.96);
+                this.prng = sinon
+                    .stub()
+                    .returns(
+                        Uint8Array.from([
+                            30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
+                        ])
+                    );
             });
 
             describe("without seedTime", function () {

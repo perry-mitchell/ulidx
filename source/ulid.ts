@@ -78,15 +78,15 @@ export function detectPRNG(root?: any): PRNG {
         (rootLookup && (rootLookup.crypto || rootLookup.msCrypto)) ||
         (typeof crypto !== "undefined" ? crypto : null);
     if (typeof globalCrypto?.getRandomValues === "function") {
-        return () => {
-            const buffer = new Uint8Array(1);
+        return (len: number) => {
+            const buffer = new Uint8Array(len);
             globalCrypto.getRandomValues(buffer);
-            return buffer[0] / 0xff;
+            return buffer;
         };
     } else if (typeof globalCrypto?.randomBytes === "function") {
-        return () => globalCrypto.randomBytes(1).readUInt8() / 0xff;
+        return (len: number) => globalCrypto.randomBytes(len);
     } else if (crypto?.randomBytes) {
-        return () => crypto.randomBytes(1).readUInt8() / 0xff;
+        return (len: number) => crypto.randomBytes(len);
     }
     throw new Layerr(
         {
@@ -113,10 +113,18 @@ function detectRoot(): any {
     return null;
 }
 
+/**
+ * Random string generation using direct mapping from the random bytes (wastes 3 of the 8 bits each, as in the original pair). Uses a loop and string concatenation.
+ * @param len Length to generate
+ * @param prng The random number function to use
+ * @returns A random base32 string
+ */
 export function encodeRandom(len: number, prng: PRNG): string {
+    const rand: Uint8Array | Buffer = prng(len);
+
     let str = "";
-    for (; len > 0; len--) {
-        str = randomChar(prng) + str;
+    for (len--; len >= 0; len--) {
+        str = str + ENCODING.charAt(rand[len] % 32);
     }
     return str;
 }
@@ -278,14 +286,6 @@ export function monotonicFactory(prng?: PRNG): ULIDFactory {
         const newRandom = (lastRandom = encodeRandom(RANDOM_LEN, currentPRNG));
         return encodeTime(seed, TIME_LEN) + newRandom;
     };
-}
-
-export function randomChar(prng: PRNG): string {
-    let rand = Math.floor(prng() * ENCODING_LEN);
-    if (rand === ENCODING_LEN) {
-        rand = ENCODING_LEN - 1;
-    }
-    return ENCODING.charAt(rand);
 }
 
 export function replaceCharAt(str: string, index: number, char: string): string {

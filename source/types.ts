@@ -1,4 +1,4 @@
-export type PRNG = () => number;
+export type PRNG = (len: number) => Uint8Array | Buffer;
 
 export type ULID = string;
 
